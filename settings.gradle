@@ -1,0 +1,4 @@
+include ':LotteryParser'
+include ':LotteryData'
+include ':app'
+rootProject.name = "Lottery"
