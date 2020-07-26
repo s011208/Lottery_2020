@@ -1,10 +1,7 @@
 package bj4.dev.yhh.lotterydata.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import bj4.dev.yhh.lotterydata.local.entity.LotteryEntity
+import androidx.room.*
+import bj4.dev.yhh.lotterydata.LotteryType
 import io.reactivex.Observable
 
 @Dao
@@ -15,3 +12,11 @@ interface LotteryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(vararg lottery: LotteryEntity): List<Long>
 }
+
+@Entity(primaryKeys = ["date", "type"])
+data class LotteryEntity(
+    val date: Long,
+    val type: LotteryType,
+    val number: List<Int>,
+    val specialNumber: List<Int>
+)
