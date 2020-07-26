@@ -6,11 +6,8 @@ import java.util.concurrent.TimeUnit
 
 class WorkerInit(private val context: Context) {
     companion object {
-        private const val UPDATE_HOUR_INTERVAL = 30L
-        private val UPDATE_TIME_UNIT = TimeUnit.SECONDS
-
-//        private const val UPDATE_HOUR_INTERVAL = 8L
-//        private val UPDATE_TIME_UNIT = TimeUnit.HOURS
+        private const val UPDATE_HOUR_INTERVAL = 8L
+        private val UPDATE_TIME_UNIT = TimeUnit.HOURS
 
         private const val BACKOFF_DELAY = 15L
         private val BACKOFF_POLICY = BackoffPolicy.LINEAR
