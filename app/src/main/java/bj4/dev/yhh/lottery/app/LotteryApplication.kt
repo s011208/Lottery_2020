@@ -10,6 +10,7 @@ import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import org.koin.android.ext.koin.androidContext
@@ -53,6 +54,7 @@ class LotteryApplication : Application() {
         RxJavaPlugins.setErrorHandler {
             Timber.w(it)
             if (it is UndeliverableException) {
+                FirebaseCrashlytics.getInstance().recordException(it)
                 return@setErrorHandler
             } else {
                 throw it
