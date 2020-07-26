@@ -9,6 +9,9 @@ import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 import timber.log.Timber
 
 
@@ -27,6 +30,12 @@ class LotteryApplication : Application() {
                 client.addPlugin(CrashReporterPlugin.getInstance())
                 client.start()
             }
+        }
+
+        startKoin {
+            androidLogger()
+            androidContext(this@LotteryApplication)
+            modules(appModule)
         }
     }
 }

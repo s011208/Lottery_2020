@@ -10,20 +10,18 @@ import bj4.dev.yhh.lotterydata.remote.LotteryRepository
 import bj4.dev.yhh.lotteryparser.parser.LtoHKParser
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.lang.IllegalStateException
 
 class MainActivity : AppCompatActivity() {
+    private val repository: LotteryRepository by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            LotteryDatabase::class.java, "lottery"
-        ).build()
-
-        LotteryRepository(db).update(LotteryType.LtoBig)
+        repository.update(LotteryType.LtoBig)
             .subscribeOn(Schedulers.io())
             .subscribe(
                 {
