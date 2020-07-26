@@ -4,6 +4,7 @@ import bj4.dev.yhh.lotterydata.LotteryType
 import bj4.dev.yhh.lotterydata.local.LotteryDatabase
 import bj4.dev.yhh.lotterydata.local.dao.FinishEntity
 import bj4.dev.yhh.lotterydata.local.dao.LotteryEntity
+import bj4.dev.yhh.lotterydata.local.dao.UpdateLogEntity
 import bj4.dev.yhh.lotteryparser.dao.Lottery
 import bj4.dev.yhh.lotteryparser.parser.LtoBigParser
 import bj4.dev.yhh.lotteryparser.parser.LtoHKParser
@@ -30,6 +31,10 @@ class LotteryRepository(private val database: LotteryDatabase) {
         val hasFinish = database.finishDao().getAll(type.name).blockingFirst().isNotEmpty()
 
         return getParser(type).parse()
+            .doOnSubscribe {
+                database.updateLogDao()
+                    .insert(UpdateLogEntity(type = type, timeStamp = System.currentTimeMillis()))
+            }
             .doOnNext { list ->
                 list.forEach { lottery ->
                     val result = database.lotteryDao().insert(

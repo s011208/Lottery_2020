@@ -1,0 +1,9 @@
+<resources>
+    <string name="notification_updater_channel_name">Lottery Updater</string>
+    <string name="notification_updater_channel_description">Lottery update channel</string>
+    <string name="notification_channel_id">Lottery Updater</string>
+    <string name="notification_lto_updater_title">Update Lto</string>
+    <string name="notification_lto_hk_updater_title">Update LtoHK</string>
+    <string name="notification_lto_big_updater_title">Update LtoBig</string>
+    <string name="notification_updater_content">Updating…</string>
+</resources>

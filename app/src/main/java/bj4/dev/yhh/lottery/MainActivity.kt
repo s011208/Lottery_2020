@@ -21,17 +21,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        repository.update(LotteryType.LtoBig)
-            .subscribeOn(Schedulers.io())
-            .subscribe(
-                {
-                    Timber.tag("QQQQ").v("size: ${it.size}")
-                }, {
-                    Timber.tag("QQQQ").w(it)
-                },
-                {
-                    Timber.tag("QQQQ").e("finish")
-                }
-            )
+//        repository.update(LotteryType.LtoBig)
+//            .subscribeOn(Schedulers.io())
+//            .subscribe(
+//                {
+//                    Timber.tag("QQQQ").v("size: ${it.size}")
+//                }, {
+//                    Timber.tag("QQQQ").w(it)
+//                },
+//                {
+//                    Timber.tag("QQQQ").e("finish")
+//                }
+//            )
     }
 }

@@ -1,3 +1,4 @@
+include ':LotteryUpdater'
 include ':LotteryParser'
 include ':LotteryData'
 include ':app'
