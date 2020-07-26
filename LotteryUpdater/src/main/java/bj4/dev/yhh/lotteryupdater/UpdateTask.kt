@@ -9,6 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.work.*
 import bj4.dev.yhh.lotterydata.LotteryType
 import bj4.dev.yhh.lotterydata.remote.LotteryRepository
+import bj4.dev.yhh.lotteryparser.dao.Lottery
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
@@ -26,9 +27,9 @@ abstract class UpdateTask(context: Context, param: WorkerParameters) :
 
         repository.update(getLotteryType())
             .blockingSubscribe(
-                { doOnNext() },
+                { doOnNext(it) },
                 {
-                    doOnError()
+                    doOnError(it)
                     Timber.w(it)
                     rtn = if (it is LotteryRepository.LoadFinishedException) {
                         Result.success()
@@ -47,11 +48,11 @@ abstract class UpdateTask(context: Context, param: WorkerParameters) :
 
     abstract fun getLotteryType(): LotteryType
 
-    fun doOnNext() {}
+    open fun doOnNext(list: List<Lottery>) {}
 
-    fun doOnComplete() {}
+    open fun doOnComplete() {}
 
-    fun doOnError() {}
+    open fun doOnError(throwable: Throwable) {}
 
     abstract fun getNotificationTitle(): String
 

@@ -5,6 +5,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import bj4.dev.yhh.lotterydata.LotteryType
 import bj4.dev.yhh.lotterydata.remote.LotteryRepository
+import bj4.dev.yhh.lotteryparser.dao.Lottery
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
@@ -20,5 +21,17 @@ class UpdateLtoBigTask(context: Context, param: WorkerParameters) : UpdateTask(c
 
     override fun getNotificationTitle(): String {
         return applicationContext.getString(R.string.notification_lto_big_updater_title)
+    }
+
+    override fun doOnNext(list: List<Lottery>) {
+        Timber.v("LtoBig doOnNext, list size: ${list.size}")
+    }
+
+    override fun doOnComplete() {
+        Timber.v("LtoBig doOnComplete")
+    }
+
+    override fun doOnError(throwable: Throwable) {
+        Timber.v("LtoBig doOnError: $throwable")
     }
 }
