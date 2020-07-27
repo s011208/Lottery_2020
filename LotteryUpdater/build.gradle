@@ -29,44 +29,35 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation project(path: ':LotteryData')
     implementation project(path: ':LotteryParser')
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation Dependencies.kotlinVersion
+    implementation Dependencies.coreKtx
+    implementation Dependencies.appCompat
+    implementation Dependencies.constrainLayout
+    testImplementation Dependencies.junit
+    androidTestImplementation Dependencies.extJunit
+    androidTestImplementation Dependencies.espresso
 
     // koin
-    def koin_version = '2.1.6'
-    // Koin for Android
-    implementation "org.koin:koin-android:$koin_version"
-// Koin Android Scope features
-    implementation "org.koin:koin-android-scope:$koin_version"
-// Koin Android ViewModel features
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
-// Koin Android Experimental features
-    implementation "org.koin:koin-android-ext:$koin_version"
-    // Koin AndroidX Scope features
-    implementation "org.koin:koin-androidx-scope:$koin_version"
-// Koin AndroidX ViewModel features
-    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
-// Koin AndroidX Experimental features
-    implementation "org.koin:koin-androidx-ext:$koin_version"
-    // Koin for Ktor Kotlin
-    implementation "org.koin:koin-ktor:$koin_version"
+    implementation Dependencies.koinAndroid
+    implementation Dependencies.koinAndroidScope
+    implementation Dependencies.koinAndroidViewModel
+    implementation Dependencies.koinAndroidExt
+    implementation Dependencies.koinAndroidxScope
+    implementation Dependencies.koinAndroidxViewModel
+    implementation Dependencies.koinAndroidxExt
+    implementation Dependencies.koinAndroidKtor
 
     // project general start---
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation Dependencies.timber
+    implementation Dependencies.rxJava
+    implementation Dependencies.rxKotlin
+    implementation Dependencies.rxAndroid
+    implementation Dependencies.gson
     // ---project general end
 
-    def work_version = "2.4.0"
-    implementation "androidx.work:work-runtime-ktx:$work_version"
-    implementation "androidx.work:work-rxjava2:$work_version"
+    implementation Dependencies.workKtx
+    implementation Dependencies.workRxJava
 }

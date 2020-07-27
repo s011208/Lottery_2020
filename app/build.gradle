@@ -28,59 +28,46 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.1'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation project(path: ':LotteryData')
     implementation project(path: ':LotteryParser')
     implementation project(path: ':LotteryUpdater')
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation Dependencies.kotlinVersion
+    implementation Dependencies.coreKtx
+    implementation Dependencies.appCompat
+    implementation Dependencies.constrainLayout
+    testImplementation Dependencies.junit
+    androidTestImplementation Dependencies.extJunit
+    androidTestImplementation Dependencies.espresso
 
     // project general start---
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation Dependencies.timber
+    implementation Dependencies.rxJava
+    implementation Dependencies.rxKotlin
+    implementation Dependencies.rxAndroid
+    implementation Dependencies.gson
     // ---project general end
 
     // flipper
-    debugImplementation 'com.facebook.flipper:flipper:0.51.0'
-    debugImplementation 'com.facebook.soloader:soloader:0.9.0'
-    releaseImplementation 'com.facebook.flipper:flipper-noop:0.51.0'
+    debugImplementation Dependencies.flipper
+    debugImplementation Dependencies.soLoader
+    releaseImplementation Dependencies.flipperNoOp
 
-    // https://developer.android.com/training/data-storage/room
-    def room_version = "2.2.5"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-//    implementation "androidx.room:room-ktx:$room_version"
-    implementation "androidx.room:room-rxjava2:$room_version"
-//    implementation "androidx.room:room-guava:$room_version"
+    implementation Dependencies.roomRuntime
+    kapt Dependencies.roomCompiler
+    implementation Dependencies.roomRxJava
 
     // koin
-    def koin_version = '2.1.6'
-    // Koin for Android
-    implementation "org.koin:koin-android:$koin_version"
-// Koin Android Scope features
-    implementation "org.koin:koin-android-scope:$koin_version"
-// Koin Android ViewModel features
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
-// Koin Android Experimental features
-    implementation "org.koin:koin-android-ext:$koin_version"
-    // Koin AndroidX Scope features
-    implementation "org.koin:koin-androidx-scope:$koin_version"
-// Koin AndroidX ViewModel features
-    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
-// Koin AndroidX Experimental features
-    implementation "org.koin:koin-androidx-ext:$koin_version"
-    // Koin for Ktor Kotlin
-    implementation "org.koin:koin-ktor:$koin_version"
+    implementation Dependencies.koinAndroid
+    implementation Dependencies.koinAndroidScope
+    implementation Dependencies.koinAndroidViewModel
+    implementation Dependencies.koinAndroidExt
+    implementation Dependencies.koinAndroidxScope
+    implementation Dependencies.koinAndroidxViewModel
+    implementation Dependencies.koinAndroidxExt
+    implementation Dependencies.koinAndroidKtor
 
     // firebase
-    implementation 'com.google.firebase:firebase-analytics:17.4.4'
-    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
+    implementation Dependencies.firebaseAnalytics
+    implementation Dependencies.firebaseCrashlytics
 }
