@@ -4,49 +4,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
-
-android {
-    compileSdkVersion 29
-
-    defaultConfig {
-        applicationId "bj4.dev.yhh.lottery"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-}
+apply from: "$rootProject.projectDir/android-library.gradle"
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(path: ':LotteryData')
     implementation project(path: ':LotteryParser')
     implementation project(path: ':LotteryUpdater')
-
-    implementation Dependencies.kotlinVersion
-    implementation Dependencies.coreKtx
-    implementation Dependencies.appCompat
-    implementation Dependencies.constrainLayout
-    testImplementation Dependencies.junit
-    androidTestImplementation Dependencies.extJunit
-    androidTestImplementation Dependencies.espresso
-
-    // project general start---
-    implementation Dependencies.timber
-    implementation Dependencies.rxJava
-    implementation Dependencies.rxKotlin
-    implementation Dependencies.rxAndroid
-    implementation Dependencies.gson
-    // ---project general end
 
     // flipper
     debugImplementation Dependencies.flipper
