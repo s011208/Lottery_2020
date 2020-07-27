@@ -1,5 +1,6 @@
 package bj4.dev.yhh.lotterydata.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import bj4.dev.yhh.lotterydata.LotteryType
 import io.reactivex.Observable
@@ -8,6 +9,9 @@ import io.reactivex.Observable
 interface UpdateLogDao {
     @Query("SELECT * from UpdateLogEntity")
     fun getAll(): Observable<List<UpdateLogEntity>>
+
+    @Query("SELECT * from UpdateLogEntity order by timeStamp DESC")
+    fun getAllFromLiveData(): LiveData<List<UpdateLogEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(vararg lottery: UpdateLogEntity): List<Long>

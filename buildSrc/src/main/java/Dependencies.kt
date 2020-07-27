@@ -2,6 +2,7 @@ object Version {
     const val roomVersion = "2.2.5"
     const val koinVersion = "2.1.6"
     const val workVersion = "2.4.0"
+    const val preferenceVersion = "1.1.1"
 }
 
 object Dependencies {
@@ -26,6 +27,7 @@ object Dependencies {
     const val roomCompiler = "androidx.room:room-compiler:${Version.roomVersion}"
     const val roomRxJava = "androidx.room:room-rxjava2:${Version.roomVersion}"
 
+    const val koinCore = "org.koin:koin-core:${Version.koinVersion}"
     const val koinAndroid = "org.koin:koin-android:${Version.koinVersion}"
     const val koinAndroidScope = "org.koin:koin-android-scope:${Version.koinVersion}"
     const val koinAndroidViewModel = "org.koin:koin-android-viewmodel:${Version.koinVersion}"
@@ -41,4 +43,5 @@ object Dependencies {
     const val jsoup = "org.jsoup:jsoup:1.12.1"
     const val workKtx = "androidx.work:work-runtime-ktx:${Version.workVersion}"
     const val workRxJava = "androidx.work:work-rxjava2:${Version.workVersion}"
+    const val preferenceKotlin = "androidx.preference:preference-ktx:${Version.preferenceVersion}"
 }

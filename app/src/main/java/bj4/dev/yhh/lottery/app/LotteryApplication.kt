@@ -39,7 +39,7 @@ class LotteryApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@LotteryApplication)
-            modules(appModule)
+            modules(appModule, viewModule)
         }
 
         initRxErrorHandler()

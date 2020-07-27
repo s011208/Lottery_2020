@@ -1,4 +1,4 @@
-package bj4.dev.yhh.lotterydata.remote
+package bj4.dev.yhh.lotterydata.repository
 
 import bj4.dev.yhh.lotterydata.LotteryType
 import bj4.dev.yhh.lotterydata.local.LotteryDatabase
@@ -46,7 +46,9 @@ class LotteryRepository(private val database: LotteryDatabase) {
                         )
                     )
                     if (result.contains(-1) && hasFinish) {
-                        throw LoadFinishedException(type)
+                        throw LoadFinishedException(
+                            type
+                        )
                     }
                 }
             }

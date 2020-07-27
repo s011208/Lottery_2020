@@ -21,16 +21,13 @@ dependencies {
     implementation Dependencies.roomRxJava
 
     // koin
+    implementation Dependencies.koinCore
     implementation Dependencies.koinAndroid
-    implementation Dependencies.koinAndroidScope
-    implementation Dependencies.koinAndroidViewModel
-    implementation Dependencies.koinAndroidExt
-    implementation Dependencies.koinAndroidxScope
     implementation Dependencies.koinAndroidxViewModel
-    implementation Dependencies.koinAndroidxExt
-    implementation Dependencies.koinAndroidKtor
 
     // firebase
     implementation Dependencies.firebaseAnalytics
     implementation Dependencies.firebaseCrashlytics
+
+    implementation Dependencies.preferenceKotlin
 }

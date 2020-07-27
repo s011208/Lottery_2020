@@ -1,13 +1,9 @@
 package bj4.dev.yhh.lotteryupdater
 
 import android.content.Context
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import bj4.dev.yhh.lotterydata.LotteryType
-import bj4.dev.yhh.lotterydata.remote.LotteryRepository
 import bj4.dev.yhh.lotteryparser.dao.Lottery
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import timber.log.Timber
 
 class UpdateLtoHKTask(context: Context, param: WorkerParameters): UpdateTask(context, param) {

@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.work.*
 import bj4.dev.yhh.lotterydata.LotteryType
-import bj4.dev.yhh.lotterydata.remote.LotteryRepository
+import bj4.dev.yhh.lotterydata.repository.LotteryRepository
 import bj4.dev.yhh.lotteryparser.dao.Lottery
 import org.koin.core.KoinComponent
 import org.koin.core.inject
