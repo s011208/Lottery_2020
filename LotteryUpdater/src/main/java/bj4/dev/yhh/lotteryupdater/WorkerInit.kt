@@ -2,11 +2,12 @@ package bj4.dev.yhh.lotteryupdater
 
 import android.content.Context
 import androidx.work.*
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class WorkerInit(private val context: Context) {
     companion object {
-        private const val UPDATE_HOUR_INTERVAL = 8L
+        private val UPDATE_HOUR_INTERVAL = if (BuildConfig.DEBUG) 1L else 8L
         private val UPDATE_TIME_UNIT = TimeUnit.HOURS
 
         private const val BACKOFF_DELAY = 15L
@@ -45,19 +46,19 @@ class WorkerInit(private val context: Context) {
         with(WorkManager.getInstance(context.applicationContext)) {
             enqueueUniquePeriodicWork(
                 UpdateLtoTask::class.java.simpleName,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 ltoUpdateRequest
             )
 
             enqueueUniquePeriodicWork(
                 UpdateLtoBigTask::class.java.simpleName,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 ltoBigUpdateRequest
             )
 
             enqueueUniquePeriodicWork(
                 UpdateLtoHKTask::class.java.simpleName,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 ltoHKUpdateRequest
             )
         }
