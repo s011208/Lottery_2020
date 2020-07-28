@@ -2,6 +2,7 @@ package bj4.dev.yhh.lottery.app
 
 import androidx.room.Room
 import bj4.dev.yhh.lottery.settings.updatelog.UpdateLogViewModel
+import bj4.dev.yhh.lottery.table.large.LargeTableViewModel
 import bj4.dev.yhh.lotterydata.local.LotteryDatabase
 import bj4.dev.yhh.lotterydata.repository.LotteryRepository
 import bj4.dev.yhh.lotterydata.repository.UpdateLogRepository
@@ -24,4 +25,5 @@ val appModule = module {
 
 val viewModule = module {
     viewModel { UpdateLogViewModel(get()) }
+    viewModel { LargeTableViewModel(get()) }
 }

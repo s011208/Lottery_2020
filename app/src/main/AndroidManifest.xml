@@ -24,6 +24,7 @@
 
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".settings.updatelog.UpdateLogActivity" />
+        <activity android:name=".table.large.LargeTableActivity" />
 
         <activity
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"

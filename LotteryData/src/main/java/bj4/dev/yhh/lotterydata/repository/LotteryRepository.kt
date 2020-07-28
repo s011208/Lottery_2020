@@ -16,6 +16,8 @@ import java.lang.IllegalArgumentException
 
 class LotteryRepository(private val database: LotteryDatabase) {
 
+    fun getFromLocalLiveData(type: LotteryType) = database.lotteryDao().getAllLiveData(type.name)
+
     fun getFromLocal(type: LotteryType): Observable<List<Lottery>> =
         database.lotteryDao().getAll(type.name).map {
             it.map { lotteryEntity ->
