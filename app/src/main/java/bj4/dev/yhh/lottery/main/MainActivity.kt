@@ -7,34 +7,58 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import bj4.dev.yhh.lottery.R
-import bj4.dev.yhh.lottery.util.UiUtilities
-import bj4.dev.yhh.lottery.main.dialog.*
+import bj4.dev.yhh.lottery.main.dialog.DisplayTypeDialogFragment
+import bj4.dev.yhh.lottery.main.dialog.LotteryTypeDialogFragment
+import bj4.dev.yhh.lottery.main.dialog.TableTypeDialogFragment
 import bj4.dev.yhh.lottery.settings.SettingsActivity
 import bj4.dev.yhh.lottery.table.large.LargeTableFragment
 import bj4.dev.yhh.lottery.util.SharedPreferenceManager
+import bj4.dev.yhh.lottery.util.UiUtilities
 import bj4.dev.yhh.lotterydata.LotteryType
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 
-class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
-    DisplayTypeDialogFragment.Callback, TableTypeDialogFragment.Callback {
+class MainActivity : AppCompatActivity() {
 
     private val sharedPreferenceManager: SharedPreferenceManager by inject()
-    private val viewModel: MainViewModel by inject()
+    private val viewModel: MainViewModel by viewModel()
     private lateinit var currentLotteryType: LotteryType
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initSettings()
         setContentView(R.layout.activity_main)
-
         initView()
+        initViewModels()
     }
 
-    override fun onResume() {
-        super.onResume()
-        initSettings()
+    private fun initViewModels() {
+        viewModel.showProgressBar.observe(this, Observer {
+            progressBar.isVisible = it
+        })
+
+        viewModel.toastEmitter.observe(this, Observer {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        })
+
+        viewModel.lotteryType.observe(this, Observer { lotteryType ->
+            Timber.v("lotteryType: $lotteryType")
+            switchFragment(lotteryType)
+        })
+
+        viewModel.displayType.observe(this, Observer { displayType ->
+            Timber.v("displayType: $displayType")
+        })
+
+        viewModel.tableType.observe(this, Observer { tableType ->
+            Timber.v("tableType: $tableType")
+        })
     }
 
     private fun initView() {
@@ -81,19 +105,7 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
                 true
             }
             R.id.update -> {
-                viewModel.update(currentLotteryType, {
-                    Toast.makeText(
-                        this@MainActivity,
-                        R.string.activity_main_toast_update_failure,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }, {
-                    Toast.makeText(
-                        this@MainActivity,
-                        R.string.activity_main_toast_update_complete,
-                        Toast.LENGTH_LONG
-                    ).show()
-                })
+                viewModel.update(currentLotteryType)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -101,39 +113,23 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
     }
 
     private fun showLotteryTypeDialog() {
-        LotteryTypeDialogFragment.make(sharedPreferenceManager.getLotteryType().ordinal).show(
+        LotteryTypeDialogFragment().show(
             supportFragmentManager,
             LotteryTypeDialogFragment::class.java.name
         )
     }
 
     private fun showDisplayTypeDialog() {
-        DisplayTypeDialogFragment.make(sharedPreferenceManager.getDisplayType().ordinal).show(
+        DisplayTypeDialogFragment().show(
             supportFragmentManager,
             DisplayTypeDialogFragment::class.java.name
         )
     }
 
     private fun showTableTypeDialog() {
-        TableTypeDialogFragment.make(sharedPreferenceManager.getTableType().ordinal).show(
+        TableTypeDialogFragment().show(
             supportFragmentManager,
             TableTypeDialogFragment::class.java.name
         )
-    }
-
-    override fun onLotteryTypeSelected(lotteryType: LotteryType) {
-        Timber.v("onLotteryTypeSelected: $lotteryType")
-        sharedPreferenceManager.setLotteryType(lotteryType)
-        switchFragment(lotteryType)
-    }
-
-    override fun onDisplayTypeSelected(displayType: DisplayType) {
-        Timber.v("onDisplayTypeSelected: $displayType")
-        sharedPreferenceManager.setDisplayType(displayType)
-    }
-
-    override fun onTableTypeSelected(tableType: TableType) {
-        Timber.v("onTableTypeSelected: $tableType")
-        sharedPreferenceManager.setTableType(tableType)
     }
 }

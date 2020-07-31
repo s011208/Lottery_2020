@@ -9,9 +9,11 @@
     <string name="activity_main_display_by_order">Display by order</string>
     <string name="activity_main_display_by_ending">Display by ending</string>
     <string name="activity_main_display_by_adding">Display by adding</string>
+    <string name="activity_main_toast_update_ignore">Updating</string>
     <string name="activity_main_toast_update_complete">Update complete</string>
     <string name="activity_main_toast_update_failure">Update failure</string>
     <string name="dialog_lottery_type_title">Lottery type</string>
     <string name="dialog_display_type_title">Display type</string>
     <string name="dialog_table_type_title">Table type</string>
+    <string name="view_component_loading">Loading…</string>
 </resources>

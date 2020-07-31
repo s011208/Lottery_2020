@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
@@ -23,16 +24,35 @@ object UiUtilities {
     fun makeDateFormat() = SimpleDateFormat("MM / dd / yyyy", Locale.getDefault())
 }
 
-class LiveDataMapAsync<X, Y>(private val source: LiveData<Y>, private val onChange: Y.() -> X) :
+class RxLiveDataMapAsync<X, Y>(
+    private val source: LiveData<Y>,
+    private val onChange: Y.() -> X,
+    private val onStart: (() -> Unit)? = null,
+    private val onComplete: (() -> Unit)? = null,
+    private val onError: (Throwable.() -> Unit)? = null
+) :
     MediatorLiveData<X>() {
     private val compositeDisposable = CompositeDisposable()
 
     fun mapAsync(): LiveData<X> {
         return MediatorLiveData<X>().apply {
             addSource(source) {
-                compositeDisposable.add(Observable.fromCallable {
-                    postValue(onChange(it))
-                }.subscribeOn(Schedulers.io()).subscribe())
+                compositeDisposable.add(Observable.fromCallable { onChange(it) }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { onStart?.invoke() }
+                    .subscribe(
+                        {
+                            postValue(it)
+                        },
+                        {
+                            onError?.invoke(it)
+                        },
+                        {
+                            onComplete?.invoke()
+                        }
+                    )
+                )
             }
         }
     }

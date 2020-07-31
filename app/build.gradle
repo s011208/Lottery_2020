@@ -30,4 +30,6 @@ dependencies {
     implementation Dependencies.firebaseCrashlytics
 
     implementation Dependencies.preferenceKotlin
+
+    implementation Dependencies.ybqProgressBar
 }

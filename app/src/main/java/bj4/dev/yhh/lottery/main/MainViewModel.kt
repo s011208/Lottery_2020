@@ -1,20 +1,54 @@
 package bj4.dev.yhh.lottery.main
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import bj4.dev.yhh.lottery.R
+import bj4.dev.yhh.lottery.main.type.DisplayType
+import bj4.dev.yhh.lottery.main.type.TableType
+import bj4.dev.yhh.lottery.util.SharedPreferenceManager
 import bj4.dev.yhh.lotterydata.LotteryType
 import bj4.dev.yhh.lotterydata.repository.LotteryRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.koin.java.KoinJavaComponent.inject
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 class MainViewModel(private val repository: LotteryRepository) : ViewModel() {
+    private val sharedPreferenceManager: SharedPreferenceManager by inject(SharedPreferenceManager::class.java)
+
     private val compositeDisposable = CompositeDisposable()
 
     private val updateMap = HashMap<LotteryType, AtomicBoolean>()
 
-    fun update(lotteryType: LotteryType, onFailed: Throwable.() -> Unit, onComplete: () -> Unit) {
+    val showProgressBar = MutableLiveData<Boolean>()
+
+    val toastEmitter = MutableLiveData<Int>()
+
+    val lotteryType =
+        MutableLiveData<LotteryType>().apply { value = sharedPreferenceManager.getLotteryType() }
+
+    fun setLotteryType(type: LotteryType) {
+        lotteryType.value = type
+        sharedPreferenceManager.setLotteryType(type)
+    }
+
+    val tableType = MutableLiveData<TableType>()
+
+    fun setTableType(type: TableType) {
+        tableType.value = type
+        sharedPreferenceManager.setTableType(type)
+    }
+
+    val displayType = MutableLiveData<DisplayType>()
+
+    fun setDisplayType(type: DisplayType) {
+        displayType.value = type
+        sharedPreferenceManager.setDisplayType(type)
+    }
+
+    fun update(lotteryType: LotteryType) {
         var isUpdating = updateMap[lotteryType]
         if (isUpdating == null) {
             isUpdating = AtomicBoolean(false)
@@ -25,24 +59,30 @@ class MainViewModel(private val repository: LotteryRepository) : ViewModel() {
                 repository.update(lotteryType)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe {
+                        showProgressBar.value = true
+                    }
                     .subscribe(
+                        {},
                         {
-                        }, {
                             if (it is LotteryRepository.LoadFinishedException) {
-                                onComplete()
+                                toastEmitter.value = R.string.activity_main_toast_update_complete
                             } else {
                                 Timber.w(it, "failed to update")
-                                it.onFailed()
+                                toastEmitter.value = R.string.activity_main_toast_update_failure
                             }
                             isUpdating.set(false)
+                            showProgressBar.value = false
                         }, {
-                            onComplete()
+                            toastEmitter.value = R.string.activity_main_toast_update_complete
                             isUpdating.set(false)
+                            showProgressBar.value = false
                         }
                     )
             )
         } else {
             Timber.v("$lotteryType is updating, ignore")
+            toastEmitter.value = R.string.activity_main_toast_update_ignore
         }
     }
 

@@ -1,8 +1,8 @@
 package bj4.dev.yhh.lottery.util
 
 import android.content.Context
-import bj4.dev.yhh.lottery.main.dialog.DisplayType
-import bj4.dev.yhh.lottery.main.dialog.TableType
+import bj4.dev.yhh.lottery.main.type.DisplayType
+import bj4.dev.yhh.lottery.main.type.TableType
 import bj4.dev.yhh.lotterydata.LotteryType
 
 class SharedPreferenceManager(context: Context) {

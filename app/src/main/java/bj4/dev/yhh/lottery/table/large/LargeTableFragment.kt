@@ -8,19 +8,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import bj4.dev.yhh.lottery.R
+import bj4.dev.yhh.lottery.main.MainViewModel
 import bj4.dev.yhh.lotterydata.LotteryType
 import kotlinx.android.synthetic.main.activity_update_log.*
+import org.koin.androidx.viewmodel.compat.SharedViewModelCompat.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LargeTableFragment : Fragment() {
 
     private val viewModel: LargeTableViewModel by viewModel()
+    private val mainViewModel: MainViewModel by sharedViewModel(this, MainViewModel::class.java)
+
     private val adapter: LargeTableAdapter = LargeTableAdapter()
 
     companion object {
         private const val ARG_LOTTERY_TYPE = "lottery_type"
 
-        fun make(lotteryType: LotteryType) : LargeTableFragment {
+        fun make(lotteryType: LotteryType): LargeTableFragment {
             return LargeTableFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_LOTTERY_TYPE, lotteryType.name)

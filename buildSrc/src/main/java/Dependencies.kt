@@ -3,6 +3,7 @@ object Version {
     const val koinVersion = "2.1.6"
     const val workVersion = "2.4.0"
     const val preferenceVersion = "1.1.1"
+    const val ybqProgressBar = "1.4.0"
 }
 
 object Dependencies {
@@ -44,4 +45,6 @@ object Dependencies {
     const val workKtx = "androidx.work:work-runtime-ktx:${Version.workVersion}"
     const val workRxJava = "androidx.work:work-rxjava2:${Version.workVersion}"
     const val preferenceKotlin = "androidx.preference:preference-ktx:${Version.preferenceVersion}"
+
+    const val ybqProgressBar = "com.github.ybq:Android-SpinKit:${Version.ybqProgressBar}"
 }

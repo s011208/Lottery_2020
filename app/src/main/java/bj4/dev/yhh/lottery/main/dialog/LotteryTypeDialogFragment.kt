@@ -5,40 +5,25 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import bj4.dev.yhh.lottery.R
+import bj4.dev.yhh.lottery.main.MainViewModel
 import bj4.dev.yhh.lotterydata.LotteryType
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LotteryTypeDialogFragment : DialogFragment() {
 
-    companion object {
-        private const val SELECTED_INDEX = "SELECTED_INDEX"
-
-        fun make(selectedIndex: Int): LotteryTypeDialogFragment {
-            return LotteryTypeDialogFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(SELECTED_INDEX, selectedIndex)
-                }
-            }
-        }
-    }
+    private val mainViewModel: MainViewModel by sharedViewModel()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.dialog_lottery_type_title)
             .setSingleChoiceItems(
                 R.array.lottery_type,
-                requireArguments().getInt(SELECTED_INDEX)
+                mainViewModel.lotteryType.value?.ordinal ?: 0
             ) { _, which ->
-                val activity = requireActivity()
-                if (activity is Callback) {
-                    activity.onLotteryTypeSelected(LotteryType.values()[which])
-                }
+                mainViewModel.setLotteryType(LotteryType.values()[which])
                 dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             .create()
-    }
-
-    interface Callback {
-        fun onLotteryTypeSelected(lotteryType: LotteryType)
     }
 }
