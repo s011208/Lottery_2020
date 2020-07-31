@@ -7,10 +7,10 @@ import io.reactivex.Observable
 
 @Dao
 interface LotteryDao {
-    @Query("SELECT * from LotteryEntity where type=:type")
+    @Query("SELECT * from LotteryEntity where type=:type ORDER by date DESC")
     fun getAll(type: String): Observable<List<LotteryEntity>>
 
-    @Query("SELECT * from LotteryEntity where type=:type")
+    @Query("SELECT * from LotteryEntity where type=:type ORDER by date DESC")
     fun getAllLiveData(type: String): LiveData<List<LotteryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import bj4.dev.yhh.lottery.R
 import bj4.dev.yhh.lottery.util.UiUtilities
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
     DisplayTypeDialogFragment.Callback, TableTypeDialogFragment.Callback {
 
     private val sharedPreferenceManager: SharedPreferenceManager by inject()
+    private val viewModel: MainViewModel by inject()
+    private lateinit var currentLotteryType: LotteryType
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
     }
 
     private fun switchFragment(lotteryType: LotteryType) {
+        currentLotteryType = lotteryType
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, LargeTableFragment.make(lotteryType))
             .commitAllowingStateLoss()
@@ -74,6 +78,22 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
             }
             R.id.settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            R.id.update -> {
+                viewModel.update(currentLotteryType, {
+                    Toast.makeText(
+                        this@MainActivity,
+                        R.string.activity_main_toast_update_failure,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }, {
+                    Toast.makeText(
+                        this@MainActivity,
+                        R.string.activity_main_toast_update_complete,
+                        Toast.LENGTH_LONG
+                    ).show()
+                })
                 true
             }
             else -> super.onOptionsItemSelected(item)
