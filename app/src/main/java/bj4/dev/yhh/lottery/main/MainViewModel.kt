@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import bj4.dev.yhh.lottery.R
 import bj4.dev.yhh.lottery.main.type.DisplayType
+import bj4.dev.yhh.lottery.main.type.FragmentInfo
 import bj4.dev.yhh.lottery.main.type.TableType
+import bj4.dev.yhh.lottery.util.LiveDataUtil
 import bj4.dev.yhh.lottery.util.SharedPreferenceManager
 import bj4.dev.yhh.lotterydata.LotteryType
 import bj4.dev.yhh.lotterydata.repository.LotteryRepository
@@ -34,18 +36,28 @@ class MainViewModel(private val repository: LotteryRepository) : ViewModel() {
         sharedPreferenceManager.setLotteryType(type)
     }
 
-    val tableType = MutableLiveData<TableType>()
+    val tableType =
+        MutableLiveData<TableType>().apply { value = sharedPreferenceManager.getTableType() }
 
     fun setTableType(type: TableType) {
         tableType.value = type
         sharedPreferenceManager.setTableType(type)
     }
 
-    val displayType = MutableLiveData<DisplayType>()
+    val displayType =
+        MutableLiveData<DisplayType>().apply { value = sharedPreferenceManager.getDisplayType() }
 
     fun setDisplayType(type: DisplayType) {
         displayType.value = type
         sharedPreferenceManager.setDisplayType(type)
+    }
+
+    val fragmentInfoLiveData = LiveDataUtil.zip(
+        lotteryType,
+        tableType,
+        displayType
+    ) { lotteryType, tableType, displayType ->
+        FragmentInfo(lotteryType!!, tableType!!, displayType!!)
     }
 
     fun update(lotteryType: LotteryType) {

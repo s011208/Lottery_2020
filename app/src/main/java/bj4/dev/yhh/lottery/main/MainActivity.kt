@@ -15,18 +15,14 @@ import bj4.dev.yhh.lottery.main.dialog.LotteryTypeDialogFragment
 import bj4.dev.yhh.lottery.main.dialog.TableTypeDialogFragment
 import bj4.dev.yhh.lottery.settings.SettingsActivity
 import bj4.dev.yhh.lottery.table.large.LargeTableFragment
-import bj4.dev.yhh.lottery.util.SharedPreferenceManager
 import bj4.dev.yhh.lottery.util.UiUtilities
 import bj4.dev.yhh.lotterydata.LotteryType
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
-
-    private val sharedPreferenceManager: SharedPreferenceManager by inject()
     private val viewModel: MainViewModel by viewModel()
     private lateinit var currentLotteryType: LotteryType
 
@@ -34,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initSettings()
         setContentView(R.layout.activity_main)
-        initView()
         initViewModels()
     }
 
@@ -47,24 +42,11 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         })
 
-        viewModel.lotteryType.observe(this, Observer { lotteryType ->
-            Timber.v("lotteryType: $lotteryType")
-            switchFragment(lotteryType)
-        })
-
-        viewModel.displayType.observe(this, Observer { displayType ->
-            Timber.v("displayType: $displayType")
-        })
-
-        viewModel.tableType.observe(this, Observer { tableType ->
-            Timber.v("tableType: $tableType")
+        viewModel.fragmentInfoLiveData.observe(this, Observer { info ->
+            Timber.v("info: $info")
+            switchFragment(info.lotteryType)
         })
     }
-
-    private fun initView() {
-        switchFragment(sharedPreferenceManager.getLotteryType())
-    }
-
 
     private fun initSettings() {
         UiUtilities.setOrientation(

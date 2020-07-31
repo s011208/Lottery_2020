@@ -24,6 +24,42 @@ object UiUtilities {
     fun makeDateFormat() = SimpleDateFormat("MM / dd / yyyy", Locale.getDefault())
 }
 
+object LiveDataUtil {
+
+    fun <T, X, Y, Z> zip(
+        source1: LiveData<X>,
+        source2: LiveData<Y>,
+        source3: LiveData<Z>,
+        block: (X?, Y?, Z?) -> T
+    ): LiveData<T> {
+        return MediatorLiveData<T>().apply {
+            addSource(source1) {
+                value = block(source1.value, source2.value, source3.value)
+            }
+            addSource(source2) {
+                value = block(source1.value, source2.value, source3.value)
+            }
+            addSource(source3) {
+                value = block(source1.value, source2.value, source3.value)
+            }
+        }
+    }
+
+    fun <T, K, R> LiveData<T>.combineWith(
+        liveData: LiveData<K>,
+        block: (T?, K?) -> R
+    ): LiveData<R> {
+        val result = MediatorLiveData<R>()
+        result.addSource(this) {
+            result.value = block(this.value, liveData.value)
+        }
+        result.addSource(liveData) {
+            result.value = block(this.value, liveData.value)
+        }
+        return result
+    }
+}
+
 class RxLiveDataMapAsync<X, Y>(
     private val source: LiveData<Y>,
     private val onChange: Y.() -> X,
