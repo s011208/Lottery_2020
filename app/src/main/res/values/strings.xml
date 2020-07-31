@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Lottery</string>
     <string name="activity_settings_update_log_title">Update log</string>
+    <string name="menu_switch_lottery_type">Switch lottery type</string>
+    <string name="menu_switch_table_type">Switch table type</string>
+    <string name="menu_settings">Settings</string>
 </resources>
