@@ -1,4 +1,4 @@
-package bj4.dev.yhh.lottery
+package bj4.dev.yhh.lottery.main
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import bj4.dev.yhh.lottery.R
+import bj4.dev.yhh.lottery.UiUtilities
 import bj4.dev.yhh.lottery.settings.SettingsActivity
 import bj4.dev.yhh.lottery.table.large.LargeTableFragment
+import bj4.dev.yhh.lotterydata.LotteryType
+import timber.log.Timber
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,17 +28,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        switchFragment()
+        switchFragment(LotteryType.Lto)
     }
 
 
     private fun initSettings() {
-        UiUtilities.setOrientation(this, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+        UiUtilities.setOrientation(
+            this,
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        )
     }
 
-    private fun switchFragment() {
+    private fun switchFragment(lotteryType: LotteryType) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, LargeTableFragment())
+            .replace(R.id.container, LargeTableFragment.make(lotteryType))
             .commitAllowingStateLoss()
     }
 
@@ -45,8 +52,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
-            R.id.switchLotteryType -> true
+        return when (item.itemId) {
+            R.id.switchLotteryType -> {
+                showLotteryTypeDialog()
+                true
+            }
             R.id.switchTableType -> true
             R.id.settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
@@ -57,6 +67,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLotteryTypeDialog() {
+        LotteryTypeDialogFragment().show(
+            supportFragmentManager,
+            LotteryTypeDialogFragment::class.java.name
+        )
+    }
 
+    override fun onLotteryTypeSelected(lotteryType: LotteryType) {
+        Timber.v("showLotteryTypeDialog: $lotteryType")
+        switchFragment(lotteryType)
     }
 }
