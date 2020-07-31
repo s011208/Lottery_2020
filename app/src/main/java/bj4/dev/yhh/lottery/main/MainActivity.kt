@@ -8,9 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import bj4.dev.yhh.lottery.R
 import bj4.dev.yhh.lottery.UiUtilities
-import bj4.dev.yhh.lottery.main.dialog.DisplayType
-import bj4.dev.yhh.lottery.main.dialog.DisplayTypeDialogFragment
-import bj4.dev.yhh.lottery.main.dialog.LotteryTypeDialogFragment
+import bj4.dev.yhh.lottery.main.dialog.*
 import bj4.dev.yhh.lottery.settings.SettingsActivity
 import bj4.dev.yhh.lottery.table.large.LargeTableFragment
 import bj4.dev.yhh.lotterydata.LotteryType
@@ -18,7 +16,7 @@ import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
-    DisplayTypeDialogFragment.Callback {
+    DisplayTypeDialogFragment.Callback, TableTypeDialogFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -65,7 +63,10 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
                 showDisplayTypeDialog()
                 true
             }
-            R.id.switchTableType -> true
+            R.id.switchTableType -> {
+                showTableTypeDialog()
+                true
+            }
             R.id.settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
@@ -88,6 +89,13 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
         )
     }
 
+    private fun showTableTypeDialog() {
+        TableTypeDialogFragment().show(
+            supportFragmentManager,
+            TableTypeDialogFragment::class.java.name
+        )
+    }
+
     override fun onLotteryTypeSelected(lotteryType: LotteryType) {
         Timber.v("onLotteryTypeSelected: $lotteryType")
         switchFragment(lotteryType)
@@ -95,5 +103,9 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
 
     override fun onDisplayTypeSelected(displayType: DisplayType) {
         Timber.v("onDisplayTypeSelected: $displayType")
+    }
+
+    override fun onTableTypeSelected(tableType: TableType) {
+        Timber.v("onTableTypeSelected: $tableType")
     }
 }

@@ -10,4 +10,5 @@
     <string name="activity_main_display_by_adding">Display by adding</string>
     <string name="dialog_lottery_type_title">Lottery type</string>
     <string name="dialog_display_type_title">Display type</string>
+    <string name="dialog_table_type_title">Table type</string>
 </resources>

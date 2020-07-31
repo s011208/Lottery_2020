@@ -11,4 +11,9 @@
         <item>@string/activity_main_display_by_adding</item>
         <item>@string/activity_main_display_by_ending</item>
     </string-array>
+
+    <string-array name="table_type">
+        <item>Large table</item>
+        <item>Small table</item>
+    </string-array>
 </resources>
