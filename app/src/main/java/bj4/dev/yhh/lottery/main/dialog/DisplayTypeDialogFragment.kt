@@ -8,12 +8,24 @@ import bj4.dev.yhh.lottery.R
 
 class DisplayTypeDialogFragment : DialogFragment() {
 
+    companion object {
+        private const val SELECTED_INDEX = "SELECTED_INDEX"
+
+        fun make(selectedIndex: Int): DisplayTypeDialogFragment {
+            return DisplayTypeDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(SELECTED_INDEX, selectedIndex)
+                }
+            }
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.dialog_display_type_title)
             .setSingleChoiceItems(
                 R.array.display_type,
-                0
+                requireArguments().getInt(SELECTED_INDEX)
             ) { _, which ->
                 val activity = requireActivity()
                 if (activity is Callback) {

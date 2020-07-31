@@ -1,4 +1,4 @@
-package bj4.dev.yhh.lottery
+package bj4.dev.yhh.lottery.util
 
 import android.app.Activity
 import java.text.SimpleDateFormat

@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bj4.dev.yhh.lottery.R
-import bj4.dev.yhh.lottery.UiUtilities
+import bj4.dev.yhh.lottery.util.UiUtilities
 import bj4.dev.yhh.lotterydata.LotteryType
 import bj4.dev.yhh.lotterydata.local.dao.LotteryEntity
 import java.util.*

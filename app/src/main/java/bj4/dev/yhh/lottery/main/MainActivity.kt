@@ -7,16 +7,21 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import bj4.dev.yhh.lottery.R
-import bj4.dev.yhh.lottery.UiUtilities
+import bj4.dev.yhh.lottery.util.UiUtilities
 import bj4.dev.yhh.lottery.main.dialog.*
 import bj4.dev.yhh.lottery.settings.SettingsActivity
 import bj4.dev.yhh.lottery.table.large.LargeTableFragment
+import bj4.dev.yhh.lottery.util.SharedPreferenceManager
 import bj4.dev.yhh.lotterydata.LotteryType
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
     DisplayTypeDialogFragment.Callback, TableTypeDialogFragment.Callback {
+
+    private val sharedPreferenceManager: SharedPreferenceManager by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,7 +35,7 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
     }
 
     private fun initView() {
-        switchFragment(LotteryType.Lto)
+        switchFragment(sharedPreferenceManager.getLotteryType())
     }
 
 
@@ -76,21 +81,21 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
     }
 
     private fun showLotteryTypeDialog() {
-        LotteryTypeDialogFragment().show(
+        LotteryTypeDialogFragment.make(sharedPreferenceManager.getLotteryType().ordinal).show(
             supportFragmentManager,
             LotteryTypeDialogFragment::class.java.name
         )
     }
 
     private fun showDisplayTypeDialog() {
-        DisplayTypeDialogFragment().show(
+        DisplayTypeDialogFragment.make(sharedPreferenceManager.getDisplayType().ordinal).show(
             supportFragmentManager,
             DisplayTypeDialogFragment::class.java.name
         )
     }
 
     private fun showTableTypeDialog() {
-        TableTypeDialogFragment().show(
+        TableTypeDialogFragment.make(sharedPreferenceManager.getTableType().ordinal).show(
             supportFragmentManager,
             TableTypeDialogFragment::class.java.name
         )
@@ -98,14 +103,17 @@ class MainActivity : AppCompatActivity(), LotteryTypeDialogFragment.Callback,
 
     override fun onLotteryTypeSelected(lotteryType: LotteryType) {
         Timber.v("onLotteryTypeSelected: $lotteryType")
+        sharedPreferenceManager.setLotteryType(lotteryType)
         switchFragment(lotteryType)
     }
 
     override fun onDisplayTypeSelected(displayType: DisplayType) {
         Timber.v("onDisplayTypeSelected: $displayType")
+        sharedPreferenceManager.setDisplayType(displayType)
     }
 
     override fun onTableTypeSelected(tableType: TableType) {
         Timber.v("onTableTypeSelected: $tableType")
+        sharedPreferenceManager.setTableType(tableType)
     }
 }
