@@ -4,4 +4,10 @@
     <string name="menu_switch_lottery_type">Switch lottery type</string>
     <string name="menu_switch_table_type">Switch table type</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_switch_display_type">Switch display type</string>
+    <string name="activity_main_display_by_order">Display by order</string>
+    <string name="activity_main_display_by_ending">Display by ending</string>
+    <string name="activity_main_display_by_adding">Display by adding</string>
+    <string name="dialog_lottery_type_title">Lottery type</string>
+    <string name="dialog_display_type_title">Display type</string>
 </resources>

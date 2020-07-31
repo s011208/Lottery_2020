@@ -1,23 +1,23 @@
-package bj4.dev.yhh.lottery.main
+package bj4.dev.yhh.lottery.main.dialog
 
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import bj4.dev.yhh.lottery.R
-import bj4.dev.yhh.lotterydata.LotteryType
 
-class LotteryTypeDialogFragment : DialogFragment() {
+class DisplayTypeDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_display_type_title)
             .setSingleChoiceItems(
-                R.array.lottery_type,
+                R.array.display_type,
                 0
             ) { _, which ->
                 val activity = requireActivity()
                 if (activity is Callback) {
-                    activity.onLotteryTypeSelected(LotteryType.values()[which])
+                    activity.onDisplayTypeSelected(DisplayType.values()[which])
                 }
                 dismiss()
             }
@@ -26,6 +26,10 @@ class LotteryTypeDialogFragment : DialogFragment() {
     }
 
     interface Callback {
-        fun onLotteryTypeSelected(lotteryType: LotteryType)
+        fun onDisplayTypeSelected(displayType: DisplayType)
     }
+}
+
+enum class DisplayType {
+    ORDER, ADDING, ENDING
 }

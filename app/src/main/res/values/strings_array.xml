@@ -5,4 +5,10 @@
         <item>LtoBig</item>
         <item>LtoHK</item>
     </string-array>
+
+    <string-array name="display_type">
+        <item>@string/activity_main_display_by_order</item>
+        <item>@string/activity_main_display_by_adding</item>
+        <item>@string/activity_main_display_by_ending</item>
+    </string-array>
 </resources>
