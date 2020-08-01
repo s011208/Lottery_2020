@@ -20,11 +20,11 @@ import bj4.dev.yhh.lotterydata.LotteryType
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.lang.IllegalStateException
 
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModel()
-    private lateinit var currentLotteryType: LotteryType
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,19 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.fragmentInfoLiveData.observe(this, Observer { info ->
             Timber.v("info: $info")
-            switchFragment(info.lotteryType)
+            refreshFragment()
+            when (info.lotteryType) {
+                LotteryType.Lto -> {
+                    setTitle(R.string.lottery_type_lto)
+                }
+                LotteryType.LtoBig -> {
+                    setTitle(R.string.lottery_type_lto_big)
+                }
+                LotteryType.LtoHK -> {
+                    setTitle(R.string.lottery_type_lto_hk)
+                }
+                else -> throw IllegalStateException("Unexpected lottery type: ${info.lotteryType}")
+            }
         })
     }
 
@@ -55,10 +67,8 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun switchFragment(lotteryType: LotteryType) {
-        currentLotteryType = lotteryType
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, LargeTableFragment.make(lotteryType))
+    private fun refreshFragment() {
+        supportFragmentManager.beginTransaction().replace(R.id.container, LargeTableFragment())
             .commitAllowingStateLoss()
     }
 
@@ -87,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.update -> {
-                viewModel.update(currentLotteryType)
+                viewModel.update()
                 true
             }
             else -> super.onOptionsItemSelected(item)

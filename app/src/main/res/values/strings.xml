@@ -16,4 +16,7 @@
     <string name="dialog_display_type_title">Display type</string>
     <string name="dialog_table_type_title">Table type</string>
     <string name="view_component_loading">Loading…</string>
+    <string name="lottery_type_lto">Lto</string>
+    <string name="lottery_type_lto_big">LtoBig</string>
+    <string name="lottery_type_lto_hk">LtoHK</string>
 </resources>

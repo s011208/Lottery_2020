@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="lottery_type">
-        <item>Lto</item>
-        <item>LtoBig</item>
-        <item>LtoHK</item>
+        <item>@string/lottery_type_lto</item>
+        <item>@string/lottery_type_lto_big</item>
+        <item>@string/lottery_type_lto_hk</item>
     </string-array>
 
     <string-array name="display_type">

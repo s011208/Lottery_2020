@@ -60,7 +60,8 @@ class MainViewModel(private val repository: LotteryRepository) : ViewModel() {
         FragmentInfo(lotteryType!!, tableType!!, displayType!!)
     }
 
-    fun update(lotteryType: LotteryType) {
+    fun update() {
+        val lotteryType: LotteryType = lotteryType.value!!
         var isUpdating = updateMap[lotteryType]
         if (isUpdating == null) {
             isUpdating = AtomicBoolean(false)
