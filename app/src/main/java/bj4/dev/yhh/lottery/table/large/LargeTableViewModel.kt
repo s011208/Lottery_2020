@@ -21,7 +21,11 @@ class LargeTableViewModel(private val repository: LotteryRepository) : ViewModel
         RxLiveDataMapAsync(Transformations.switchMap(mutableLotteryCategory) { param ->
             repository.getFromLocalLiveData(param)
         }, {
-            return@RxLiveDataMapAsync this
+            val rtn = ArrayList<Row>()
+            forEach { lotteryEntity ->
+                rtn.add(Row.make(lotteryEntity, mutableLotteryCategory.value!!))
+            }
+            return@RxLiveDataMapAsync rtn
         }).also { disposedList.add(it) }.mapAsync()
 
     override fun onCleared() {

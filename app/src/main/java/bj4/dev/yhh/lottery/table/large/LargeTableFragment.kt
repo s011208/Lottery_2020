@@ -46,5 +46,6 @@ class LargeTableFragment : Fragment() {
     private fun initViews() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        recyclerView.setHasFixedSize(true)
     }
 }
