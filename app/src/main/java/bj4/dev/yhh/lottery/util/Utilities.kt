@@ -1,6 +1,8 @@
 package bj4.dev.yhh.lottery.util
 
 import android.app.Activity
+import android.content.Context
+import android.text.format.DateUtils
 import androidx.annotation.MainThread
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
@@ -21,7 +23,19 @@ object UiUtilities {
         activity.requestedOrientation = orientation
     }
 
-    fun makeDateFormat() = SimpleDateFormat("MM / dd / yyyy", Locale.getDefault())
+    fun makeYMDDateFormat(context: Context, time: Long) =
+        DateUtils.formatDateTime(
+            context,
+            time,
+            DateUtils.FORMAT_ABBREV_ALL or DateUtils.FORMAT_SHOW_YEAR
+        )
+
+    fun makeYMDateFormat(context: Context, time: Long) =
+        DateUtils.formatDateTime(
+            context,
+            time,
+            DateUtils.FORMAT_ABBREV_ALL or DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_NO_MONTH_DAY
+        )
 }
 
 object LiveDataUtil {

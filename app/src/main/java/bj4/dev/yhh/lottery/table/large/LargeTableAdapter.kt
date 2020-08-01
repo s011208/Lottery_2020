@@ -32,7 +32,7 @@ internal class LargeTableAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val row = dataList[position]
-        holder.date.text = row.dateCell.date
+        holder.date.text = row.dateCell.date(holder.date.context)
 
         for (index in holder.viewList.indices) {
             if (index > row.cellList.lastIndex) {
