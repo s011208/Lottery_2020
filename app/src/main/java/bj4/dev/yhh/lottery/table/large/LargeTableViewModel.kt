@@ -64,7 +64,7 @@ class LargeTableViewModel(private val repository: LotteryRepository) : ViewModel
                     monthlySpecialList.addAll(lotteryEntity.specialNumber)
                 }
                 totalNormalList.addAll(lotteryEntity.number)
-                totalNormalList.addAll(lotteryEntity.specialNumber)
+                totalSpecialList.addAll(lotteryEntity.specialNumber)
                 rtn.add(Row.make(lotteryEntity, lotteryType))
             }
             rtn.add(
