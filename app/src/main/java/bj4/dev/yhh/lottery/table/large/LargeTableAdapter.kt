@@ -32,7 +32,10 @@ internal class LargeTableAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val row = dataList[position]
-        holder.date.text = row.dateCell.date(holder.date.context)
+        with(holder.date) {
+            text = row.dateCell.date(holder.date.context)
+            updateForeground(row.rowType)
+        }
 
         for (index in holder.viewList.indices) {
             if (index > row.cellList.lastIndex) {
@@ -51,9 +54,19 @@ internal class LargeTableAdapter : RecyclerView.Adapter<ViewHolder>() {
                     } else {
                         setTextColor(Color.WHITE)
                     }
+                    updateForeground(row.rowType)
                 }
             }
         }
+    }
+
+    private fun View.updateForeground(type: RowType) {
+        setBackgroundResource(
+            when (type) {
+                RowType.MonthlySubTotal -> R.drawable.bg_text_view_large_table_highlight
+                else -> R.drawable.bg_text_view_large_table
+            }
+        )
     }
 }
 
