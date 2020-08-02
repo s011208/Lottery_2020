@@ -100,6 +100,14 @@ class MainActivity : AppCompatActivity() {
                 viewModel.update()
                 true
             }
+            R.id.showTop -> {
+                viewModel.showTop()
+                true
+            }
+            R.id.showBottom -> {
+                viewModel.showBottom()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

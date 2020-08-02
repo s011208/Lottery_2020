@@ -18,6 +18,10 @@ import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 class MainViewModel(private val repository: LotteryRepository) : ViewModel() {
+    enum class Event {
+        ShowTop, ShowBottom
+    }
+
     private val sharedPreferenceManager: SharedPreferenceManager by inject(SharedPreferenceManager::class.java)
 
     private val compositeDisposable = CompositeDisposable()
@@ -27,6 +31,16 @@ class MainViewModel(private val repository: LotteryRepository) : ViewModel() {
     val showProgressBar = MutableLiveData<Boolean>()
 
     val toastEmitter = MutableLiveData<Int>()
+
+    val activityEvent = MutableLiveData<Event>()
+
+    fun showTop() {
+        activityEvent.value = Event.ShowTop
+    }
+
+    fun showBottom() {
+        activityEvent.value = Event.ShowBottom
+    }
 
     val lotteryType =
         MutableLiveData<LotteryType>().apply { value = sharedPreferenceManager.getLotteryType() }

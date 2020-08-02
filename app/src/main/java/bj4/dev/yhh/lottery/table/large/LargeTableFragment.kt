@@ -41,6 +41,16 @@ class LargeTableFragment : Fragment() {
             adapter.dataList.addAll(it)
             adapter.notifyDataSetChanged()
         })
+        mainViewModel.activityEvent.observe(viewLifecycleOwner, Observer {
+            when (it!!) {
+                MainViewModel.Event.ShowTop -> {
+                    recyclerView.scrollToPosition(0)
+                }
+                MainViewModel.Event.ShowBottom -> {
+                    recyclerView.scrollToPosition(adapter.dataList.lastIndex)
+                }
+            }
+        })
     }
 
     private fun initViews() {
